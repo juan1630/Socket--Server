@@ -1,34 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var router = express_1.Router();
-router.get('/mensajes', function (req, res) {
+const express_1 = require("express");
+const router = express_1.Router();
+router.get('/mensajes', (req, res) => {
     res.json({
         ok: true,
         mensaje: "Todo esta bien"
     });
 });
-router.post('/mensajes', function (req, res) {
-    var cuerpo = req.body.cuerpo;
-    var de = req.body.de;
+router.post('/mensajes', (req, res) => {
+    const cuerpo = req.body.cuerpo;
+    const de = req.body.de;
     res.json({
         ok: true,
         mensaje: {
-            cuerpo: cuerpo,
-            de: de
+            cuerpo,
+            de
         }
     });
 });
-router.post('/mensajes/:id', function (req, res) {
-    var cuerpo = req.body.cuerpo;
-    var de = req.body.de;
-    var id = req.params.id;
+router.post('/mensajes/:id', (req, res) => {
+    const cuerpo = req.body.cuerpo;
+    const de = req.body.de;
+    const id = req.params.id;
     res.json({
         ok: true,
         mensaje: {
-            cuerpo: cuerpo,
-            de: de,
-            id: id
+            cuerpo,
+            de,
+            id
         }
     });
 });

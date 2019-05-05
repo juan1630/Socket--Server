@@ -1,15 +1,31 @@
-"use strict";
-exports.__esModule = true;
-var express_1 = require("express");
-var env_1 = require("../global/env");
-var server = /** @class */ (function () {
-    function server() {
-        this.app = express_1["default"]();
-        this.port = env_1.SERVER_PORT;
+import express from 'express';
+import { SERVER_PORT } from '../global/env';
+import socketIO from 'socket.io';
+import http from 'http';
+import * as socket from '../sockets/sockets';
+export default class Server {
+    constructor() {
+        this.app = express();
+        this.port = SERVER_PORT;
+        this.httpServer = new http.Server(this.app);
+        this.io = socketIO(this.httpServer);
+        this.escucharSocket();
     }
-    server.prototype.start = function (callback) {
-        this.app.listen(this.port, callback);
-    };
-    return server;
-}());
-exports["default"] = server;
+    static get instance() {
+        return this._instance || (this._instance = new this());
+    }
+    escucharSocket() {
+        console.log('Escuchando conexiobnes');
+        this.io.on('connection', (client) => {
+            console.log('Nuevo cliente conectado');
+            // escuchando mensajes
+            socket.mensaje(client, this.io);
+            // Desconceción
+            socket.desconectado(client);
+        });
+        // on escucha el evento
+    }
+    start(callback) {
+        this.httpServer.listen(this.port, callback);
+    }
+}

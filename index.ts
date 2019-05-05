@@ -1,10 +1,10 @@
-import Server from './classes/server';
+import Server from "./classes/Server";
 import { SERVER_PORT } from './global/env';
 import router from './routes/router';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-const server = new Server();
+const server = Server.instance;
 
 // body parser debe de ir antes ya que las demas dependencias lo usan
 

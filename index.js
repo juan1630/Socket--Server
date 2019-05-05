@@ -1,8 +1,18 @@
-"use strict";
-exports.__esModule = true;
-var server_1 = require("./classes/server");
-var env_1 = require("./global/env");
-var server = new server_1["default"]();
-server.start(function () {
-    console.log("Servidor corriendo en el puerto   " + env_1.SERVER_PORT);
+import Server from "./classes/Server";
+import { SERVER_PORT } from './global/env';
+import router from './routes/router';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+const server = Server.instance;
+// body parser debe de ir antes ya que las demas dependencias lo usan
+server.app.use(bodyParser.urlencoded({ extended: true }));
+server.app.use(bodyParser.json());
+// genera un objeto de js
+// cors
+// para recibir peticiones de otros puertos
+server.app.use(cors({ origin: true, credentials: true }));
+// rutas de los servicios
+server.app.use('/', router);
+server.start(() => {
+    console.log(`Servidor corriendo en el puerto   ${SERVER_PORT}`);
 });

@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var server_1 = __importDefault(require("./classes/server"));
-var env_1 = require("./global/env");
-var router_1 = __importDefault(require("./routes/router"));
-var body_parser_1 = __importDefault(require("body-parser"));
-var cors_1 = __importDefault(require("cors"));
-var server = new server_1.default();
+const Server_1 = __importDefault(require("./classes/Server"));
+const env_1 = require("./global/env");
+const router_1 = __importDefault(require("./routes/router"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
+const server = Server_1.default.instance;
 // body parser debe de ir antes ya que las demas dependencias lo usan
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
@@ -18,6 +18,6 @@ server.app.use(body_parser_1.default.json());
 server.app.use(cors_1.default({ origin: true, credentials: true }));
 // rutas de los servicios
 server.app.use('/', router_1.default);
-server.start(function () {
-    console.log("Servidor corriendo en el puerto   " + env_1.SERVER_PORT);
+server.start(() => {
+    console.log(`Servidor corriendo en el puerto   ${env_1.SERVER_PORT}`);
 });
